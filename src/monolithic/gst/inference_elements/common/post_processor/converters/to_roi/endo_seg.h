@@ -88,7 +88,7 @@ class EndoSegConverter : public BlobToROIConverter {
     }
 
     static std::string getDepricatedName() {
-        return "tensor_to_bbox_mask_rcnn";
+        return "tensor_to_bbox_endo_seg";
     }
 };
 } // namespace post_processing
