@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "mask_rcnn.h"
+#include "endo_seg.h"
 
 #include "copy_blob_to_gststruct.h"
 #include "inference_backend/image_inference.h"
