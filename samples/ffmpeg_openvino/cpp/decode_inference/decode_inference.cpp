@@ -52,7 +52,11 @@ int main(int argc, char *argv[]) {
         AVFormatContext *input_ctx = NULL;
         DLS_CHECK_GE0(avformat_open_input(&input_ctx, FLAGS_i.data(), input_format, NULL));
         const AVCodec *codec = nullptr;
-        int video_stream = av_find_best_stream(input_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
+        //int video_stream = av_find_best_stream(input_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
+   AVCodec* temp_codec = const_cast<AVCodec*>(codec);
+   int video_stream = av_find_best_stream(input_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &temp_codec, 0);
+   codec = temp_codec;
+
         DLS_CHECK_GE0(video_stream);
         AVCodecParameters *codecpar = input_ctx->streams[video_stream]->codecpar;
 
