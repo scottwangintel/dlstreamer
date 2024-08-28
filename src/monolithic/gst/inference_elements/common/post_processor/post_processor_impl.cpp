@@ -11,6 +11,8 @@
 #include "converters/to_roi/boxes_scores.h"
 #include "converters/to_roi/detection_output.h"
 #include "converters/to_tensor/raw_data_copy.h"
+#include "converters/to_tensor/endo_raw_data_copy.h"
+
 
 #include "inference_backend/logger.h"
 

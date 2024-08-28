@@ -18,6 +18,7 @@
 #include "converters/to_tensor/keypoints_openpose.h"
 #include "converters/to_tensor/label.h"
 #include "converters/to_tensor/raw_data_copy.h"
+#include "converters/to_tensor/endo_raw_data_copy.h"
 #include "converters/to_tensor/text.h"
 
 #include "gva_base_inference.h"
