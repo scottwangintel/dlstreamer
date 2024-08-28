@@ -11,6 +11,7 @@
 #include "centerface.h"
 #include "detection_output.h"
 #include "mask_rcnn.h"
+#include "endo_seg.h"
 #include "yolo_base.h"
 #include "yolo_v2.h"
 #include "yolo_v3.h"
