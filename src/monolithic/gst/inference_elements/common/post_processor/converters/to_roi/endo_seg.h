@@ -19,6 +19,7 @@
 
 namespace post_processing {
 
+#if 0
 /*
 Three tensors output:
 mask_rcnn boxes output = [B, N, 5] where:
@@ -75,6 +76,8 @@ const int TWO_TENSORS_OFFSET_Y2 = 6; // y coordinate of the bottom right corner 
 
 const std::string TWO_TENSORS_BOXES_KEY = "reshape_do_2d";
 const std::string TWO_TENSORS_MASKS_KEY = "SecondStageBoxPredictor_1/Conv_3/BiasAdd";
+
+#endif 
 
 class EndoSegConverter : public BlobToROIConverter {
   public:
