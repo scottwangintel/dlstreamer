@@ -153,8 +153,6 @@ BlobToMetaConverter::Ptr BlobToMetaConverter::create(Initializer initializer, Co
     case ConverterType::RAW:
         if (converter_name == RawDataCopyConverter::getName())
             return BlobToMetaConverter::Ptr(new RawDataCopyConverter(std::move(initializer)));
-        else if (converter_name == EndoRawDataCopyConverter::getName())
-            return BlobToMetaConverter::Ptr(new EndoRawDataCopyConverter(std::move(initializer)));
         else
             throw std::runtime_error("Unsupported converter '" + converter_name + "' for type RAW");
         break;
