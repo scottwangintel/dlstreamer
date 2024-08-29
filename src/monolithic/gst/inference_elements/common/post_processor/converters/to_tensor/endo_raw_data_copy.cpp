@@ -31,12 +31,14 @@ TensorsTable EndoRawDataCopyConverter::convert(const OutputBlobs &output_blobs) 
             }
 
             const std::string &layer_name = blob_iter.first;
+            const std::string prefixed_layer_name = "Endo-" + layer_name; // Add "Endo-" prefix
+
 
             for (size_t frame_index = 0; frame_index < batch_size; ++frame_index) {
                 GstStructure *tensor_data = BlobToTensorConverter::createTensor().gst_structure();
 
                 CopyOutputBlobToGstStructure(blob, tensor_data, BlobToMetaConverter::getModelName().c_str(),
-                                             layer_name.c_str(), batch_size, frame_index);
+                                             prefixed_layer_name.c_str(), batch_size, frame_index);
 
                 // In different versions of GStreamer, tensors_batch are attached to the buffer in a different order.
                 // Thus, we identify our meta using tensor_id.
