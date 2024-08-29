@@ -10,7 +10,6 @@
 #include "converters/to_roi/boxes_labels.h"
 #include "converters/to_roi/detection_output.h"
 #include "converters/to_roi/mask_rcnn.h"
-#include "converters/to_roi/endo_roi_seg.h"
 #include "converters/to_roi/yolo_v2.h"
 #include "converters/to_roi/yolo_v3.h"
 #include "converters/to_roi/yolo_v8.h"
@@ -20,6 +19,7 @@
 #include "converters/to_tensor/label.h"
 #include "converters/to_tensor/raw_data_copy.h"
 #include "converters/to_tensor/endo_raw_data_copy.h"
+#include "converters/to_tensor/endo_roi_seg.h"
 #include "converters/to_tensor/text.h"
 
 #include "gva_base_inference.h"

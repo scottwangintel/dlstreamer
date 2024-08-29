@@ -7,7 +7,7 @@
 #pragma once
 //#error "hit this place"
 
-#include "../to_tensor/blob_to_tensor_converter.h"
+#include "blob_to_tensor_converter.h"
 
 #include "inference_backend/image_inference.h"
 
