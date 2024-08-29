@@ -31,7 +31,7 @@ TensorsTable EndoRoiSegConverter::convert(const OutputBlobs &output_blobs) const
             }
 
             const std::string &layer_name = blob_iter.first;
-            const std::string prefixed_layer_name = "Endo-" + layer_name; // Add "Endo-" prefix
+            const std::string prefixed_layer_name = "Endo-ROI-Seg" + layer_name; // Add "Endo-" prefix
 
 
             for (size_t frame_index = 0; frame_index < batch_size; ++frame_index) {
