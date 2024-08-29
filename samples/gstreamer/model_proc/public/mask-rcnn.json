@@ -18,7 +18,7 @@
     ],
     "output_postproc": [
       {
-        "converter": "mask_rcnn",
+        "converter": "endo_seg",
         "labels": [
           "__background__",
           "person",
