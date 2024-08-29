@@ -136,7 +136,8 @@ FILE=$(basename "$INPUT" | cut -d. -f1)
 # Determine SINK_ELEMENT based on output argument
 declare -A sink_elements
 sink_elements["file"]="gvawatermark ! gvafpscounter ! vah264enc ! h264parse ! mp4mux ! filesink location=DLS_${FILE}_${DEVICE}.mp4"
-sink_elements['display']="gvawatermark ! videoconvertscale ! gvafpscounter ! autovideosink sync=false"
+#sink_elements['display']="gvawatermark ! videoconvertscale ! gvafpscounter ! ximagesink sync=true #autovideosink sync=false"
+sink_elements['display']="gvawatermark ! videoconvertscale ! gvafpscounter ! ximagesink sync=true"
 sink_elements['fps']="gvafpscounter ! fakesink sync=false"
 sink_elements['json']="gvametaconvert add-tensor-data=true ! gvametapublish file-format=json-lines file-path=output.json ! fakesink sync=false"
 sink_elements['display-and-json']="gvawatermark ! gvametaconvert add-tensor-data=true ! gvametapublish file-format=json-lines file-path=DLS_${FILE}_${DEVICE}.json ! videoconvert ! gvafpscounter ! autovideosink sync=false"
