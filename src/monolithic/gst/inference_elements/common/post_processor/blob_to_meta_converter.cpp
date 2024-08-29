@@ -10,6 +10,7 @@
 #include "converters/to_roi/boxes_labels.h"
 #include "converters/to_roi/detection_output.h"
 #include "converters/to_roi/mask_rcnn.h"
+#include "converters/to_roi/endo_roi_seg.h"
 #include "converters/to_roi/yolo_v2.h"
 #include "converters/to_roi/yolo_v3.h"
 #include "converters/to_roi/yolo_v8.h"
@@ -155,6 +156,8 @@ BlobToMetaConverter::Ptr BlobToMetaConverter::create(Initializer initializer, Co
             return BlobToMetaConverter::Ptr(new RawDataCopyConverter(std::move(initializer)));
         else if (converter_name == EndoRawDataCopyConverter::getName())
             return BlobToMetaConverter::Ptr(new EndoRawDataCopyConverter(std::move(initializer)));
+        else if (converter_name == EndoRoiSegConverter::getName())
+            return BlobToMetaConverter::Ptr(new EndoRoiSegConverter(std::move(initializer)));
         else
             throw std::runtime_error("Unsupported converter '" + converter_name + "' for type RAW");
         break;
