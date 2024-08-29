@@ -27,7 +27,7 @@ if [[ -z $INPUT ]]; then
 fi
 
 if [[ $OUTPUT == "display" ]]; then
-  SINK_ELEMENT="gvawatermark ! videoconvert ! gvafpscounter ! autovideosink sync=false"
+  SINK_ELEMENT="gvawatermark ! videoconvert ! gvafpscounter ! ximagesink sync=false"
 elif [[ $OUTPUT == "fps" ]]; then
   SINK_ELEMENT=" gvafpscounter ! fakesink async=false"
 elif [[ $OUTPUT == "json" ]]; then
