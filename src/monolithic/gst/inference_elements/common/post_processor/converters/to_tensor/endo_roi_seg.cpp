@@ -31,25 +31,46 @@ TensorsTable EndoRoiSegConverter::convert(const OutputBlobs &output_blobs) const
             }
 
             const std::string &layer_name = blob_iter.first;
-            const std::string prefixed_layer_name = "Endo-ROI-Seg" + layer_name; // Add "Endo-" prefix
+            const std::string prefixed_layer_name = "Endo-ROI-Seg2" + layer_name; // Add "Endo-" prefix
+            const std::string prefixed_layer_name2 = "Endo-ROI-Seg2_2" + layer_name; // Add "Endo-" prefix
 
 
             for (size_t frame_index = 0; frame_index < batch_size; ++frame_index) {
-                GstStructure *tensor_data = BlobToTensorConverter::createTensor().gst_structure();
-
-                CopyOutputBlobToGstStructure(blob, tensor_data, BlobToMetaConverter::getModelName().c_str(),
-                                             prefixed_layer_name.c_str(), batch_size, frame_index);
-
-                // In different versions of GStreamer, tensors_batch are attached to the buffer in a different order.
-                // Thus, we identify our meta using tensor_id.
-                gst_structure_set(tensor_data, "tensor_id", G_TYPE_INT, safe_convert<int>(frame_index), NULL);
-
-                std::vector<GstStructure *> tensors{tensor_data};
-                tensors_table[frame_index].push_back(tensors);
+                processFrame_RawCopy(blob, prefixed_layer_name, batch_size, frame_index, tensors_table);
+                processFrame_RawCopy(blob, prefixed_layer_name2, batch_size, frame_index, tensors_table);
             }
         }
     } catch (const std::exception &e) {
         GVA_ERROR("An error occurred while processing output BLOBs: %s", e.what());
     }
     return tensors_table;
+}
+
+void EndoRoiSegConverter::processFrame_RawCopy(const OutputBlob::Ptr &blob, const std::string &prefixed_layer_name, size_t batch_size, size_t frame_index, TensorsTable &tensors_table) const {
+    GstStructure *tensor_data = BlobToTensorConverter::createTensor().gst_structure();
+
+    CopyOutputBlobToGstStructure(blob, tensor_data, BlobToMetaConverter::getModelName().c_str(),
+                                 prefixed_layer_name.c_str(), batch_size, frame_index);
+
+    // In different versions of GStreamer, tensors_batch are attached to the buffer in a different order.
+    // Thus, we identify our meta using tensor_id.
+    gst_structure_set(tensor_data, "tensor_id", G_TYPE_INT, safe_convert<int>(frame_index), NULL);
+
+    std::vector<GstStructure *> tensors{tensor_data};
+    tensors_table[frame_index].push_back(tensors);
+}
+
+
+void EndoRoiSegConverter::processFrame_BuildSegmentationMaskTensor(const OutputBlob::Ptr &blob, const std::string &prefixed_layer_name, size_t batch_size, size_t frame_index, TensorsTable &tensors_table) const {
+    GstStructure *tensor_data = BlobToTensorConverter::createTensor().gst_structure();
+
+    CopyOutputBlobToGstStructure(blob, tensor_data, BlobToMetaConverter::getModelName().c_str(),
+                                 prefixed_layer_name.c_str(), batch_size, frame_index);
+
+    // In different versions of GStreamer, tensors_batch are attached to the buffer in a different order.
+    // Thus, we identify our meta using tensor_id.
+    gst_structure_set(tensor_data, "tensor_id", G_TYPE_INT, safe_convert<int>(frame_index), NULL);
+
+    std::vector<GstStructure *> tensors{tensor_data};
+    tensors_table[frame_index].push_back(tensors);
 }
