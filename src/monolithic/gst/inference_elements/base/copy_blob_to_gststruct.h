@@ -5,6 +5,7 @@
  ******************************************************************************/
 #pragma once
 
+#include <opencv2/opencv.hpp>
 #include "inference_backend/image_inference.h"
 #include <cstddef>
 #include <tensor.h>
