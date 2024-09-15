@@ -14,5 +14,3 @@ void CopyOutputBlobToGstStructure(InferenceBackend::OutputBlob::Ptr blob, GstStr
                                   int32_t batch_index);
 
 void copy_buffer_to_structure(GstStructure *structure, const void *buffer, size_t size);
-
-int GetUnbatchedSizeInBytes(InferenceBackend::OutputBlob::Ptr blob, size_t batch_size);
