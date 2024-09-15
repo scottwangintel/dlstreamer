@@ -162,7 +162,7 @@ void EndoStreamer_CopyOutputBlobToGstStructure(InferenceBackend::OutputBlob::Ptr
 
         // Resize the image to exactly match To_Width and To_Height
         cv::Mat _new_2d_image_;
-        cv::resize(_2d_image, _new_2d_image_, cv::Size(input_width, input_height), 0, 0, cv::INTER_LINEAR);
+        cv::resize(_2d_image, _new_2d_image_, cv::Size(input_width, input_height), 0, 0, cv::INTER_CUBIC); //INTER_CUBIC: slower, INTER_LINEAR
 
         // Convert the resized image back to a 1D float array
         cv::Mat _new_1d_ = _new_2d_image_.reshape(1, input_height * input_width); // Reshape to 1D
@@ -170,6 +170,8 @@ void EndoStreamer_CopyOutputBlobToGstStructure(InferenceBackend::OutputBlob::Ptr
 
         // TODO: check data buffer size
         copy_buffer_to_structure(gst_struct, reinterpret_cast<float*>(_new_1d_.data), _new_1d_.total() * sizeof(float));
+	
+	cout << "EndoStreamer_CopyOutputBlobToGstStructure.\n";
 
         gst_structure_set(gst_struct, "layer_name", G_TYPE_STRING, layer_name, "model_name", G_TYPE_STRING, model_name,
                           "precision", G_TYPE_INT, static_cast<int>(blob->GetPrecision()), "layout", G_TYPE_INT,

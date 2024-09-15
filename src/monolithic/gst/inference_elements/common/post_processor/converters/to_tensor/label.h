@@ -37,6 +37,7 @@ class LabelConverter : public BlobToTensorConverter {
   private:
     Method _method = Method::Max;
     double _confidence_threshold = 0.5;
+    //double _confidence_threshold = 1e-04;
     template <typename T>
     void ExecuteMethod(const T *data, const std::string &layer_name, InferenceBackend::OutputBlob::Ptr blob,
                        TensorsTable &tensors_table) const;
