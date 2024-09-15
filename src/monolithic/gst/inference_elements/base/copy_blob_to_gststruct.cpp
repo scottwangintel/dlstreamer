@@ -141,7 +141,7 @@ void CopyOutputBlobToGstStructure(InferenceBackend::OutputBlob::Ptr blob, GstStr
 #define NANONET_IMAGE_HEIGHT 256
 void EndoStreamer_CopyOutputBlobToGstStructure(InferenceBackend::OutputBlob::Ptr blob, GstStructure *gst_struct,
                                   const char *model_name, const char *layer_name, int32_t batch_size,
-                                  int32_t batch_index) {
+                                  int32_t batch_index, size_t input_width, size_t input_height) {
     try {
         if (!blob)
             throw std::invalid_argument("Blob pointer is null");
@@ -159,9 +159,6 @@ void EndoStreamer_CopyOutputBlobToGstStructure(InferenceBackend::OutputBlob::Ptr
 
         // Convert 1D array to 2D image
         cv::Mat _2d_image(NANONET_IMAGE_HEIGHT, NANONET_IMAGE_WIDTH, CV_32FC1, array1D.data());
-
-        size_t input_width = getModelInputImageInfo().width;
-        size_t input_height = getModelInputImageInfo().height;
 
         // Resize the image to exactly match To_Width and To_Height
         cv::Mat _new_2d_image_;

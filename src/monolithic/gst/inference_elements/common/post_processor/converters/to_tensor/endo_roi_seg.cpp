@@ -17,8 +17,6 @@
 using namespace post_processing;
 using namespace InferenceBackend;
 
-#define NANONET_IMAGE_WIDTH  256
-#define NANONET_IMAGE_HEIGHT 256
 
 
 TensorsTable EndoRoiSegConverter::convert(const OutputBlobs &output_blobs) const {
@@ -79,7 +77,7 @@ void EndoRoiSegConverter::processFrame_BuildSegmentationMaskTensor(const OutputB
     GstStructure *tensor = tensor_data ; // For easy naming 
 
     EndoStreamer_CopyOutputBlobToGstStructure (blob, tensor, BlobToMetaConverter::getModelName().c_str(),
-                                 prefixed_layer_name.c_str(), batch_size, frame_index);
+                                 prefixed_layer_name.c_str(), batch_size, frame_index, input_width, input_height);
 
 
     gst_structure_set_name(tensor, "mask_endo");
