@@ -12,5 +12,7 @@
 void CopyOutputBlobToGstStructure(InferenceBackend::OutputBlob::Ptr blob, GstStructure *gst_struct,
                                   const char *model_name, const char *layer_name, int32_t batch_size,
                                   int32_t batch_index);
-
+void EndoStreamer_CopyOutputBlobToGstStructure(InferenceBackend::OutputBlob::Ptr blob, GstStructure *gst_struct,
+                                  const char *model_name, const char *layer_name, int32_t batch_size,
+                                  int32_t batch_index);
 void copy_buffer_to_structure(GstStructure *structure, const void *buffer, size_t size);

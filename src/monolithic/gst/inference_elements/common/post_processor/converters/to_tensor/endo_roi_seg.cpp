@@ -66,50 +66,6 @@ void EndoRoiSegConverter::processFrame_RawCopy(const OutputBlob::Ptr &blob, cons
 }
 
 
-void EndoStreamer_CopyOutputBlobToGstStructure(InferenceBackend::OutputBlob::Ptr blob, GstStructure *gst_struct,
-                                  const char *model_name, const char *layer_name, int32_t batch_size,
-                                  int32_t batch_index) {
-    try {
-        if (!blob)
-            throw std::invalid_argument("Blob pointer is null");
-
-        const uint8_t *data = reinterpret_cast<const uint8_t *>(blob->GetData());
-        if (data == nullptr)
-            throw std::invalid_argument("Failed to get blob data");
-
-        size_t size = GetUnbatchedSizeInBytes(blob, batch_size);
-
-        // Data buffer pointer: const unit8_t *data; Data buffer length: size_t size 
-            // Create a 1D float array from the raw data buffer
-        std::vector<float> array1D(NANONET_IMAGE_WIDTH * NANONET_IMAGE_HEIGHT);
-        memcpy(array1D.data(), data + batch_index * size, size);
-
-        // Convert 1D array to 2D image
-        cv::Mat _2d_image(NANONET_IMAGE_HEIGHT, NANONET_IMAGE_WIDTH, CV_32FC1, array1D.data());
-
-        size_t input_width = getModelInputImageInfo().width;
-        size_t input_height = getModelInputImageInfo().height;
-
-        // Resize the image to exactly match To_Width and To_Height
-        cv::Mat _new_2d_image_;
-        cv::resize(_2d_image, _new_2d_image_, cv::Size(input_width, input_height), 0, 0, cv::INTER_LINEAR);
-
-        // Convert the resized image back to a 1D float array
-        cv::Mat _new_1d_ = _new_2d_image_.reshape(1, input_height * input_width); // Reshape to 1D
-
-
-        // TODO: check data buffer size
-        copy_buffer_to_structure(gst_struct, reinterpret_cast<float*>(_new_1d_.data), _new_1d_.total() * sizeof(float));
-
-        gst_structure_set(gst_struct, "layer_name", G_TYPE_STRING, layer_name, "model_name", G_TYPE_STRING, model_name,
-                          "precision", G_TYPE_INT, static_cast<int>(blob->GetPrecision()), "layout", G_TYPE_INT,
-                          static_cast<int>(blob->GetLayout()), NULL);
-
-    } catch (const std::exception &e) {
-        std::throw_with_nested(std::runtime_error("EndoStreamer_CopyOutputBlobToGstStructure Failed to copy model"));
-    }
-}
-
 
 void EndoRoiSegConverter::processFrame_BuildSegmentationMaskTensor(const OutputBlob::Ptr &blob, const std::string &prefixed_layer_name, size_t batch_size, size_t frame_index, TensorsTable &tensors_table) const 
 {
